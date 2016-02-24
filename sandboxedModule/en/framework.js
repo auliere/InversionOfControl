@@ -4,18 +4,24 @@
 
 // The framework can require core libraries
 var fs = require('fs'),
-    vm = require('vm');
+    vm = require('vm'),
+	util = require('util');
 
 // Create a hash and turn it into the sandboxed context which will be
 // the global context of an application
-var context = { module: {}, 
-				console: console, 
-				setTimeout: function(callback, timeout) {
-					console.log("Function setTimeout was called with interval " + timeout);
-					setTimeout(callback, timeout);
-				}, 
-				setInterval: setInterval,
-				clearInterval: clearInterval};
+var context = 
+	{ 
+		module: {}, 
+		console: console, 
+		setTimeout: 
+		function(callback, timeout) {
+			console.log("Function setTimeout was called with interval " + timeout);
+			setTimeout(callback, timeout);
+		}, 
+		setInterval: setInterval,
+		clearInterval: clearInterval,
+		util: util
+	};
 context.global = context;
 var sandbox = vm.createContext(context);
 
