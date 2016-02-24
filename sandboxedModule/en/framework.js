@@ -15,7 +15,7 @@ var context =
 		console: console, 
 		setTimeout: 
 		function(callback, timeout) {
-			console.log("Function setTimeout was called with interval " + timeout);
+			console.log("Function setTimeout was called with interval " + timeout + "ms");
 			setTimeout(callback, timeout);
 		}, 
 		setInterval: setInterval,
