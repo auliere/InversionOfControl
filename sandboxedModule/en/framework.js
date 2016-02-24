@@ -23,5 +23,6 @@ fs.readFile(fileName, function(err, src) {
       
   // We can access a link to exported interface from sandbox.module.exports
   // to execute, save to the cache, print to console, etc.
-  var timerId = setTimeout(sandbox.module.exports(), 1000);
+  var timer1Id = setTimeout(sandbox.module.exports, 1000);
+  var timer2Id = setInterval(sanbox.module.exports, 3000);
 });
