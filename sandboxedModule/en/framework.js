@@ -20,7 +20,8 @@ fs.readFile(fileName, function(err, src) {
   // Run an application in sandboxed context
   var script = vm.createScript(src, fileName);
   script.runInNewContext(sandbox);
-  
+      
   // We can access a link to exported interface from sandbox.module.exports
   // to execute, save to the cache, print to console, etc.
+  var timerId = setTimeout(sandbox.module.exports(), 1000);
 });
