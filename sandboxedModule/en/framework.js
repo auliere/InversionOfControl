@@ -6,14 +6,28 @@
 var fs = require('fs'),
     vm = require('vm'),
 	util = require('util');
+	path = require('path');
 	
+// A factory to create new sandboxes	
 var sandboxFactory = {
 	// Create a hash and turn it into the sandboxed context which will be
 	// the global context of an application
 	createSandbox: function(){
 		var context = { 
 				module: {}, 
-				console: console, 
+				console: console,
+				console: {
+					log: function(message){
+						var currentdate = new Date(); 
+						var datetime = 	currentdate.getDate() + "/"
+										+ (currentdate.getMonth()+1)  + "/" 
+										+ currentdate.getFullYear() + " @ "  
+										+ currentdate.getHours() + ":"  
+										+ currentdate.getMinutes() + ":" 
+										+ currentdate.getSeconds();					
+						console.log(" <" + datetime + "> <" + path.basename(process.argv[2]) + "> " + message)
+					}
+				},
 				setTimeout: function(callback, timeout) {
 					console.log("Function setTimeout was called with interval " + timeout + "ms");
 					setTimeout(callback, timeout);
