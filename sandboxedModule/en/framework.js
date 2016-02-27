@@ -69,7 +69,12 @@ else
 				script.runInNewContext(sandbox);
 				// We can access a link to exported interface from sandbox.module.exports
 				// to execute, save to the cache, print to console, etc.
-			}
+				
+				//Print a list of exported functions and variables
+				for(var item in sandbox.module.exports) {
+					console.log("    " + item + ": <" + typeof(sandbox.module.exports[item]) + ">" );
+				}
+			}			
 		});
 	});
 }
