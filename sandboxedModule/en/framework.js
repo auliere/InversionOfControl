@@ -25,7 +25,11 @@ var sandboxFactory = {
 										+ currentdate.getHours() + ":"  
 										+ currentdate.getMinutes() + ":" 
 										+ currentdate.getSeconds();					
-						console.log(" <" + datetime + "> <" + path.basename(process.argv[2]) + "> " + message)
+						var interceptMessage = " <" + datetime + "> <" + path.basename(process.argv[2]) + "> " + message;
+						console.log(interceptMessage);
+						fs.appendFile('log', interceptMessage + "\n", (err) => {
+							if (err) throw err;
+						});
 					}
 				},
 				setTimeout: function(callback, timeout) {
