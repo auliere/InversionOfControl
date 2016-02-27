@@ -8,7 +8,7 @@ var timer1Id = setInterval(function(){ console.log("Using setInterval and util f
 var timer2Id = setTimeout(function(){ clearInterval(timer1Id) }, 10000);
 
 module.exports = {
-	somefunc: function() {
+	somefunc: function(a, b, c) {
 		// Print from the exported function context
 	  console.log('From application exported function');	
 	},

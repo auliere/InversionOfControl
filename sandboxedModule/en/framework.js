@@ -72,7 +72,17 @@ else
 				
 				//Print a list of exported functions and variables
 				for(var item in sandbox.module.exports) {
-					console.log("    " + item + ": <" + typeof(sandbox.module.exports[item]) + ">" );
+					if(typeof(sandbox.module.exports[item]) == "function") {
+						var argList = sandbox.module.exports[item].toString()
+							.replace(/((\/\/.*$)|(\/\*[\s\S]*?\*\/)|(\s))/mg,'')
+							.match(/^function\s*[^\(]*\(\s*([^\)]*)\)/m)[1];						
+						for(var item in sandbox.module.exports[item].arguments) {
+							argList = argList + (item + ", ");
+						}
+						console.log("    " + item + ": <" + typeof(sandbox.module.exports[item]) + "(" + argList + ")>" );
+					} else {
+						console.log("    " + item + ": <" + typeof(sandbox.module.exports[item]) + ">" );
+					}
 				}
 			}			
 		});
