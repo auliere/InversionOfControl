@@ -63,9 +63,12 @@ else
 			if (err) {
 				console.log("File " + item + " not found");
 			} else {
-				// Run an application in sandboxed context
+				// Run an application in sandboxed context								
 				var script = vm.createScript(src, fileName);
 				var sandbox = sandboxFactory.createSandbox();
+				//List of application's global context keys before run
+				var beforeRun = sandbox.global;
+				console.log(beforeRun);
 				script.runInNewContext(sandbox);
 				// We can access a link to exported interface from sandbox.module.exports
 				// to execute, save to the cache, print to console, etc.
@@ -81,6 +84,10 @@ else
 						console.log("    " + item + ": <" + typeof(sandbox.module.exports[item]) + ">" );
 					}
 				}
+				
+				//List of application's global context keys before after run
+				var afterRun = sandbox.global;
+				console.log(afterRun);
 			}			
 		});
 	});

@@ -14,6 +14,7 @@ for(var item in global) {
 		console.log("    " + item + ": <" + typeof(global[item]) + ">" );
 	}
 }
+
 var timer1Id = setInterval(function(){ console.log("Using setInterval and util from app global context"); }, 1000);
 var timer2Id = setTimeout(function(){ clearInterval(timer1Id) }, 10000);
 
