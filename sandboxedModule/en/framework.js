@@ -7,7 +7,6 @@ var fs = require('fs'),
     vm = require('vm'),
 	util = require('util');
 	path = require('path');
-	con = console;
 	
 // A factory to create new sandboxes	
 var sandboxFactory = {
@@ -17,7 +16,6 @@ var sandboxFactory = {
 	createSandbox: function(){
 		var context = { 
 				module: {}, 
-				console: console,
 				console: clone(console),
 				setTimeout: function(callback, timeout) {
 					console.log("Function setTimeout was called with interval " + timeout + "ms");
@@ -36,8 +34,8 @@ var sandboxFactory = {
 										+ currentdate.getMinutes() + ":" 
 										+ currentdate.getSeconds();					
 						var interceptMessage = " <" + datetime + "> <" + path.basename(process.argv[2]) + "> " + message;
-						con.log(interceptMessage);
-						fs.appendFile('log', interceptMessage + "\n", (err) => {
+						console.log(interceptMessage);
+						fs.appendFile(path.basename(process.argv[2])+".log", interceptMessage + "\n", (err) => {
 							if (err) throw err;
 						});
 					}
