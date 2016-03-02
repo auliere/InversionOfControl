@@ -7,31 +7,18 @@ var fs = require('fs'),
     vm = require('vm'),
 	util = require('util');
 	path = require('path');
+	con = console;
 	
 // A factory to create new sandboxes	
 var sandboxFactory = {
 	// Create a hash and turn it into the sandboxed context which will be
 	// the global context of an application
+	//TOOD: clone console object to wrap console.log method
 	createSandbox: function(){
 		var context = { 
 				module: {}, 
 				console: console,
-				console: {
-					log: function(message){
-						var currentdate = new Date(); 
-						var datetime = 	currentdate.getDate() + "/"
-										+ (currentdate.getMonth()+1)  + "/" 
-										+ currentdate.getFullYear() + " @ "  
-										+ currentdate.getHours() + ":"  
-										+ currentdate.getMinutes() + ":" 
-										+ currentdate.getSeconds();					
-						var interceptMessage = " <" + datetime + "> <" + path.basename(process.argv[2]) + "> " + message;
-						console.log(interceptMessage);
-						fs.appendFile('log', interceptMessage + "\n", (err) => {
-							if (err) throw err;
-						});
-					}
-				},
+				console: clone(console),
 				setTimeout: function(callback, timeout) {
 					console.log("Function setTimeout was called with interval " + timeout + "ms");
 					setTimeout(callback, timeout);
@@ -40,6 +27,25 @@ var sandboxFactory = {
 				clearInterval: clearInterval,
 				util: util
 			};
+		context.console.log = function(message){
+						var currentdate = new Date(); 
+						var datetime = 	currentdate.getDate() + "/"
+										+ (currentdate.getMonth()+1)  + "/" 
+										+ currentdate.getFullYear() + " @ "  
+										+ currentdate.getHours() + ":"  
+										+ currentdate.getMinutes() + ":" 
+										+ currentdate.getSeconds();					
+						var interceptMessage = " <" + datetime + "> <" + path.basename(process.argv[2]) + "> " + message;
+						con.log(interceptMessage);
+						fs.appendFile('log', interceptMessage + "\n", (err) => {
+							if (err) throw err;
+						});
+					}
+		function clone(obj){
+			res = {};
+			for (var key in obj) res[key] = obj[key];
+			return res;
+		}
 		context.global = context;		
 		var sandbox = vm.createContext(context);
 		return sandbox;
