@@ -73,8 +73,11 @@ else
 				var script = vm.createScript(src, fileName);
 				var sandbox = sandboxFactory.createSandbox();
 				//List of application's global context keys before run
-				var beforeRun = sandbox.global;
-				console.log(beforeRun);
+				function printSandboxKeys(obj){
+					for (var key in obj) console.log("\t" + key);
+				}
+				console.log("Context before run:");
+				printSandboxKeys(sandbox);
 				script.runInNewContext(sandbox);
 				// We can access a link to exported interface from sandbox.module.exports
 				// to execute, save to the cache, print to console, etc.
@@ -92,8 +95,8 @@ else
 				}
 				
 				//List of application's global context keys before after run
-				var afterRun = sandbox.global;
-				console.log(afterRun);
+				console.log("Context after run");
+				printSandboxKeys(sandbox);
 			}			
 		});
 	});
