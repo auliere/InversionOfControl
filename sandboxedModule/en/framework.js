@@ -5,8 +5,9 @@
 // The framework can require core libraries
 var fs = require('fs'),
     vm = require('vm'),
-	util = require('util');
-	path = require('path');
+	util = require('util'),
+	path = require('path'),
+	os = require("os");
 	
 // A factory to create new sandboxes	
 var sandboxFactory = {
@@ -23,7 +24,22 @@ var sandboxFactory = {
 				}, 
 				setInterval: setInterval,
 				clearInterval: clearInterval,
-				util: util
+				util: util,
+				require: function(module) {
+						var currentdate = new Date(); 
+						var datetime = 	currentdate.getDate() + "/"
+										+ (currentdate.getMonth()+1)  + "/" 
+										+ currentdate.getFullYear() + " @ "  
+										+ currentdate.getHours() + ":"  
+										+ currentdate.getMinutes() + ":" 
+										+ currentdate.getSeconds();
+										
+						var message = " <" + datetime + "> <" + module + "> "
+						fs.appendFile(path.basename(process.argv[2])+".require.log", message + os.EOL, (err) => {
+							if (err) throw err;
+						});	
+						return require(module)
+				}
 			};
 		context.console.log = function(message){
 						var currentdate = new Date(); 
@@ -35,7 +51,7 @@ var sandboxFactory = {
 										+ currentdate.getSeconds();					
 						var interceptMessage = " <" + datetime + "> <" + path.basename(process.argv[2]) + "> " + message;
 						console.log(interceptMessage);
-						fs.appendFile(path.basename(process.argv[2])+".log", interceptMessage + "\n", (err) => {
+						fs.appendFile(path.basename(process.argv[2])+".log", interceptMessage + os.EOL, (err) => {
 							if (err) throw err;
 						});
 					}
@@ -82,7 +98,7 @@ else
 				
 				//Print a list of exported functions and variables
 				for(var item in sandbox.module.exports) {
-					if(typeof(sandbox.module.exports[item]) == "function") {
+					if(typeof(sandbox.module.exports[item]) === "function") {
 						var argList = sandbox.module.exports[item].toString()
 							.replace(/((\/\/.*$)|(\/\*[\s\S]*?\*\/)|(\s))/mg,'')
 							.match(/^function\s*[^\(]*\(\s*([^\)]*)\)/m)[1];

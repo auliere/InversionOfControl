@@ -1,11 +1,11 @@
 ## Description
 
-* `framework.js` - small piece of the framework, just to demonstrate IoC
-* `application.js` - small piece of the application, also for IoC demonstration
+* `framework.js` - a part of the sample framework for IoC demonstration
+* `application.js` - a part of the sample application for IoC demonstration
 
-## How to execute
+## Executing the example
 
-From the command line, type: `node ./framework.js` or `node framework`
+In the command line type: `node ./framework.js` or `node framework`
 
 ## Tasks
 

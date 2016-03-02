@@ -3,6 +3,7 @@
 // another pice of code from `framework.js`. Read README.md for tasks.
 
 // Print from the global context of application module
+os = require('os')
 console.log('From application global context');
 for(var item in global) {
 	if(typeof(global[item]) == "function") {
@@ -14,6 +15,8 @@ for(var item in global) {
 		console.log("    " + item + ": <" + typeof(global[item]) + ">" );
 	}
 }
+
+console.log(os.homedir());
 
 var timer1Id = setInterval(function(){ console.log("Using setInterval and util from app global context"); }, 1000);
 var timer2Id = setTimeout(function(){ clearInterval(timer1Id) }, 10000);
