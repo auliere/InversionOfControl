@@ -10,6 +10,28 @@ function cloneInterface(interfaceInstance) {
   }
   return clone;
 }
+
+  
+function wrapFunction(fnName, fn) {
+  return function wrapper() {
+    var args = [];
+    Array.prototype.push.apply(args, arguments);
+    console.log('Call: ' + fnName);
+    console.dir(args);
+    return fn.apply(undefined, args);
+  }
+}
+
+function addition(x, y) {
+  return x+y; 
+}
+
+console.log(addition(2,3));
+
+console.log(wrapFunction('Addition', function wrapper(x, y){
+    console.log("Hah");
+    return addition(x, y);
+  })(2,3));
 	
 // Create a hash for application sandbox
 var context = {
