@@ -16,6 +16,9 @@ function wrapFunction(fnName, fn) {
   return function wrapper() {
     var args = [];
     Array.prototype.push.apply(args, arguments);
+    if(typeof(args[args.length-1]) === "function"){
+      var callback = args[args.length-1];
+    }
     console.log('Call: ' + fnName);
     console.dir(args);
     return fn.apply(undefined, args);
