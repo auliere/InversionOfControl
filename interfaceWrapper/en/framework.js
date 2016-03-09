@@ -3,12 +3,20 @@
 var fs = require('fs'),
     vm = require('vm');
 
+function cloneInterface(interfaceInstance) {
+  var clone = {};
+  for (var key in interfaceInstance) {
+    clone[key] = interfaceInstance[key];
+  }
+  return clone;
+}
+	
 // Create a hash for application sandbox
 var context = {
   module: {},
   console: console,
   // Forward link to fs API into sandbox
-  fs: fs,
+  fs: cloneInterface(fs),
   // Wrapper for setTimeout in sandbox
   setTimeout: function(callback, timeout) {
     // Logging all setTimeout calls
